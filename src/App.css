@@ -26,6 +26,10 @@
   background-color: #333;
 }
 
+label {
+  height: fit-content !important;
+}
+
 label::after {
   content: "" !important;
 }
