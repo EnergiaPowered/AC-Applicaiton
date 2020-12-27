@@ -6,23 +6,26 @@ import $ from "jquery";
 
 function Main() {
   const [submitted, setSubmitted] = useState(false);
+  const [finished] = useState(true);
 
   const submit = (values) => {
     setSubmitted(true);
 
-    if (typeof values.prev_programming === "undefined")
-      values.prev_programming = "";
+    if (!finished) {
+      if (typeof values.prev_programming === "undefined")
+        values.prev_programming = "";
 
-    values["course"] += " Development";
-    values["a_year"] += " Year";
+      values["course"] += " Development";
+      values["a_year"] += " Year";
 
-    $.ajax({
-      url:
-        "https://script.google.com/macros/s/AKfycbzhTWBEenjLwg6XrRA3sU3NsKFySpNxow_vYhibyHZi7OIV8FlP/exec",
-      method: "GET",
-      dataType: "json",
-      data: values,
-    });
+      $.ajax({
+        url:
+          "https://script.google.com/macros/s/AKfycbzhTWBEenjLwg6XrRA3sU3NsKFySpNxow_vYhibyHZi7OIV8FlP/exec",
+        method: "GET",
+        dataType: "json",
+        data: values,
+      });
+    }
   };
 
   return (
@@ -67,16 +70,31 @@ function Main() {
                     So, keep waiting for us.
                   </p>
                 ) : (
-                  <p>
-                    Energia Powered is a student activity in Ain shams
-                    University. <br />
-                    This application form to join our academic sessions as a
-                    participant, so if you are interested, fill this form and
-                    join us.
-                  </p>
+                  <div>
+                    <p>
+                      Energia Powered is a student activity in Ain shams
+                      University. <br />
+                      This application form to join our academic sessions as a
+                      participant, so if you are interested, fill this form and
+                      join us.
+                    </p>
+                    {finished ? (
+                      <h4>
+                        The form is closed
+                        <span role="img" aria-label="sad">
+                          😥
+                        </span>
+                        <br />
+                        Better luck next time
+                        <span role="img" aria-label="twink">
+                          😉
+                        </span>
+                      </h4>
+                    ) : null}
+                  </div>
                 )}
               </div>
-              {submitted ? null : <Application submit={submit} />}
+              {submitted || finished ? null : <Application submit={submit} />}
             </div>
           </div>
         </div>
